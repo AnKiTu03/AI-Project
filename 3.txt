@@ -1,0 +1,53 @@
+Steps to Install Jenkins and Setup CI/CD
+
+Step 1: Install Jenkins
+
+For Ubuntu/Linux
+
+sudo apt update
+sudo apt install openjdk-11-jdk -y
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt update
+sudo apt install jenkins -y
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+
+Access Jenkins: `http://<your-server-ip>:8080`  
+Unlock:  
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+
+Step 2: Add Jenkinsfile
+
+Create a `Jenkinsfile` in your project repository:
+
+pipeline {
+    agent any
+    stages {
+        stage('Build') { steps { echo 'Building...' } }
+        stage('Test') { steps { echo 'Testing...' } }
+        stage('Deploy') { steps { echo 'Deploying...' } }
+    }
+}
+
+
+
+
+Step 3: Setup Jenkins Pipeline
+
+1. Go to Jenkins Dashboard > New Item > Pipeline.  
+2. Under Pipeline, set:  
+   - SCM: Git  
+   - Repository URL: `https://github.com/<username>/<repo-name>.git`
+
+---
+
+Step 4: Run Pipeline
+
+- Click Build Now.  
+- Monitor stages in Console Output.
+
+---
+

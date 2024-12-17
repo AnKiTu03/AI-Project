@@ -1,0 +1,37 @@
+npm install selenium-webdriver
+
+
+
+const { Builder, By, until } = require('selenium-webdriver');
+
+async function loginTest() {
+    // Set up WebDriver for Chrome
+    let driver = await new Builder().forBrowser('chrome').build();
+    try {
+        // Open login page
+        await driver.get('http://example.com/login');
+
+        // Enter username and password
+        await driver.findElement(By.name('username')).sendKeys('testUser');
+        await driver.findElement(By.name('password')).sendKeys('testPass');
+
+        // Click Login button
+        await driver.findElement(By.id('login')).click();
+
+        // Wait for a successful login check
+        await driver.wait(until.urlContains('dashboard'), 5000);
+        console.log('Login Test Passed!');
+    } catch (error) {
+        console.log('Login Test Failed:', error);
+    } finally {
+        // Quit the browser
+        await driver.quit();
+    }
+}
+
+loginTest();
+
+
+
+
+node loginTest.js

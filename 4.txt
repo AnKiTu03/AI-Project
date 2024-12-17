@@ -1,0 +1,51 @@
+Steps to Create Jobs on Standalone Jenkins and Tomcat Jenkins
+1. Install Jenkins and Tomcat
+Install Jenkins:
+
+sudo apt update
+sudo apt install openjdk-11-jdk jenkins -y
+sudo systemctl start jenkins
+Install Tomcat and Deploy Jenkins:
+
+
+sudo apt install tomcat9 -y
+wget http://updates.jenkins-ci.org/download/war/latest/jenkins.war
+sudo cp jenkins.war /var/lib/tomcat9/webapps/
+sudo systemctl restart tomcat9
+
+
+Access:
+Standalone: http://<server-ip>:8080
+Tomcat: http://<server-ip>:8080/jenkins
+
+
+2. Create Jobs
+Standalone Jenkins Job
+New Item > Freestyle Project > Add:
+
+
+echo "Hello World from Standalone Jenkins!"
+
+Tomcat Jenkins Job
+Access Jenkins via Tomcat > New Item > Add:
+
+
+echo "Hello World from Tomcat Jenkins!"
+
+
+3. Create Hello World Pipeline
+
+New Item > Pipeline > Add:
+
+pipeline {
+    agent any
+    stages {
+        stage('Hello') {
+            steps { echo 'Hello World Pipeline!' }
+        }
+    }
+}
+
+
+4. Execute
+Click Build Now for all jobs and verify output in Console Output.

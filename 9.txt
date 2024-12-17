@@ -1,0 +1,34 @@
+npm install selenium-webdriver
+
+
+const { Builder, By, until } = require('selenium-webdriver');
+
+(async function invalidLoginTest() {
+    let driver = await new Builder().forBrowser('chrome').build();
+    try {
+        // Open the login page
+        await driver.get('http://example.com/login');
+
+        // Input invalid credentials
+        await driver.findElement(By.name('username')).sendKeys('wrongUser');
+        await driver.findElement(By.name('password')).sendKeys('wrongPass');
+
+        // Click Login button
+        await driver.findElement(By.id('login')).click();
+
+        // Verify error message
+        let error = await driver.wait(
+            until.elementLocated(By.id('error-msg')),
+            5000
+        );
+        console.log('Test Passed: Invalid login shows error');
+    } catch (err) {
+        console.log('Test Failed:', err);
+    } finally {
+        await driver.quit();
+    }
+})();
+
+
+
+node invalidLoginTest.js

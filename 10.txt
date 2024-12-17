@@ -1,0 +1,33 @@
+npm install selenium-webdriver
+
+
+
+
+const { Builder, By, until } = require('selenium-webdriver');
+
+(async function googleSearchTest() {
+    let driver = await new Builder().forBrowser('chrome').build();
+    try {
+        // Open Google search page
+        await driver.get('https://www.google.com');
+
+        // Enter search term in the search box
+        await driver.findElement(By.name('q')).sendKeys('Selenium WebDriver');
+
+        // Submit the search form
+        await driver.findElement(By.name('q')).submit();
+
+        // Wait for search results and verify title contains the search term
+        await driver.wait(until.titleContains('Selenium WebDriver'), 5000);
+
+        console.log('Test Passed: Google search works!');
+    } catch (err) {
+        console.log('Test Failed:', err);
+    } finally {
+        // Close the browser
+        await driver.quit();
+    }
+})();
+
+
+node googleSearchTest.js
